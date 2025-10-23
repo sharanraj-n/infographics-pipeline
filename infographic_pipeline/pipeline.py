@@ -1,11 +1,14 @@
-from agents.fine_tuned_article_agent import FineTunedArticleAgent
-from agents.infographics_agent import InfographicsAgent
-from agents.merger_agent import MergerAgent
-from agents.evaluator_agent import EvaluatorAgent
+"""
+Master pipeline for running all infographic agents in sequence.
+Collects article, generates layout, merges, and evaluates.
+"""
+
+from infographic_pipeline.agents.fine_tuned_article_agent import FineTunedArticleAgent
+from infographic_pipeline.agents.infographics_agent import InfographicsAgent
+from infographic_pipeline.agents.merger_agent import MergerAgent
+from infographic_pipeline.agents.evaluator_agent import EvaluatorAgent
 
 class InfographicPipeline:
-    """Runs the entire multi-agent pipeline using LangChain and Gemini."""
-
     def __init__(self):
         self.article_agent = FineTunedArticleAgent()
         self.infographics_agent = InfographicsAgent()
@@ -13,11 +16,14 @@ class InfographicPipeline:
         self.evaluator_agent = EvaluatorAgent()
 
     def run(self, article_text: str):
+        """
+        Executes the pipeline: Extract -> Spec -> Merge -> Evaluate.
+        Returns: dict containing all outputs from each stage.
+        """
         key_points = self.article_agent.extract_key_points(article_text)
         design_spec = self.infographics_agent.generate_design_spec(key_points)
         merged = self.merger_agent.merge(key_points, design_spec)
         evaluation = self.evaluator_agent.evaluate(merged)
-
         return {
             "structured_data": key_points,
             "visual_spec": design_spec,
