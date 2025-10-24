@@ -1,16 +1,9 @@
-"""
-Utility module for robust extraction of JSON from LLM responses.
-Handles cases where model output is not STRICTLY a JSON block.
-"""
-
-import json, re
+import json
+import re
 
 def robust_json_extract(text):
     """
-    Attempt to extract the first valid JSON object from a model string output.
-    - Tries parsing all {...} blocks (most common LLM "leakage" format).
-    - Falls back to trying the entire output.
-    - Returns dict, or {error, raw} if unsuccessful.
+    Extracts a JSON object from a string, being tolerant to LLMs returning extra text.
     """
     matches = re.findall(r'\{[\s\S]*\}', text)
     for candidate in matches:

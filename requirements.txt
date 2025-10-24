@@ -1,9 +1,9 @@
-python-dotenv
-google-generativeai
-langchain>=0.1.15
-langchain-core>=0.1.30
-langchain-google-genai>=0.0.3
-Pillow
+fastapi
+uvicorn
+python-multipart
 matplotlib
-WeasyPrint
 pdfkit
+langchain
+langchain-google-genai
+google-generativeai
+python-dotenv

@@ -1,40 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Infographic: Solar Capacity</title>
+<style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        padding: 40px 20px;
+        color: #333;
+    }
+    .container { max-width: 1200px; margin: 0 auto; }
+    .header {
+        text-align: center; color: white; margin-bottom: 40px; animation: fadeInDown 0.8s ease;
+    }
+    .header h1 {
+        font-size: 3rem; font-weight: 700; margin-bottom: 10px;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+    }
+    .header .subtitle { font-size: 1.1rem; opacity: 0.9; }
 
-        <html>
-          <head>
-            <title>Infographic Output: solar_capacity</title>
-            <style>
-              body { font-family: Arial; padding: 40px; background: #f8f9fa; }
-              h1 { color: #2c3e50; }
-              .section { background: #fff; padding: 20px; margin-bottom: 15px; border-radius: 8px; }
-            </style>
-          </head>
-          <body>
-            <h1>Infographic: Solar Capacity</h1>
-            <div class="section">
-              <h2>Main Points</h2>
-              <ul>
-                <li>India's solar power capacity has seen significant growth.</li><li>Declining costs and government incentives are driving this expansion.</li><li>India is projected to become a global solar leader.</li><li>Challenges like grid integration and storage need to be addressed.</li>
-              </ul>
-            </div>
-            <div class="section">
-              <h2>Key Statistics</h2>
-              <ul>
-                <li>Solar power capacity (2025): 70GW</li><li>Solar power capacity (2022): 35GW</li><li>Projected solar power capacity goal (2027): 100GW</li>
-              </ul>
-            </div>
-            <div class="section chart">
-              <img src="solar_capacity_chart.png" alt="Key Statistics Chart" width="400"/>
-            </div>
-            <div class="section">
-              <h2>Suggested Visuals</h2>
-              <ul>
-                <li>bar chart</li><li>line graph</li><li>timeline</li>
-              </ul>
-            </div>
-            <div class="section">
-              <h2>Summary</h2>
-              <p>India's solar power capacity has doubled from 35GW in 2022 to 70GW in 2025, driven by falling costs and government support. This growth is expected to continue, with a target of 100GW by 2027, thanks to abundant sunlight, rural adoption, and solar parks. While challenges in grid integration and storage persist, India is positioned to be a major player in the global solar market.</p>
-            </div>
-          </body>
-        </html>
-        
+    .card {
+        background: white; border-radius: 20px; padding: 40px; margin-bottom: 30px;
+        box-shadow: 0 20px 60px rgba(0,0,0,0.3); animation: fadeInUp 0.6s ease;
+    }
+    .section-title {
+        font-size: 2rem; font-weight: 700; margin-bottom: 25px; color: #667eea;
+        display: flex; align-items: center; gap: 15px;
+    }
+    .section-title::before {
+        content: ""; width: 5px; height: 40px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 3px;
+    }
+
+    /* Points */
+    .points-grid { display: grid; gap: 20px; }
+    .point-card {
+        display: flex; align-items: flex-start; gap: 20px; padding: 20px;
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        border-radius: 15px; transition: all 0.3s ease;
+    }
+    .point-card:hover { transform: translateX(10px); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+    .point-number {
+        flex-shrink: 0; width: 50px; height: 50px; border-radius: 50%;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;
+        display: flex; align-items: center; justify-content: center; font-size: 1.4rem; font-weight: 700;
+    }
+    .point-text { flex: 1; font-size: 1.05rem; line-height: 1.6; }
+
+    /* Statistics */
+    .stats-grid {
+        display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 25px;
+    }
+    .stat-card {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;
+        padding: 28px; border-radius: 15px; text-align: center; transition: all 0.3s ease;
+        box-shadow: 0 5px 15px rgba(102,126,234,0.3);
+    }
+    .stat-card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(102,126,234,0.5); }
+    .stat-value { font-size: 2.2rem; font-weight: 800; margin-bottom: 8px; }
+    .stat-label { font-size: 0.98rem; opacity: 0.95; }
+
+    /* Chart */
+    .chart-container {
+        text-align: center; padding: 20px; background: #f8f9fa; border-radius: 15px;
+    }
+    .chart-container img {
+        max-width: 100%; height: auto; border-radius: 10px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
+
+    /* Visual Suggestions */
+    .badges-container { display: flex; flex-wrap: wrap; gap: 12px; }
+    .badge {
+        display: inline-block; padding: 10px 18px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white; border-radius: 25px; font-size: 0.95rem; font-weight: 600; transition: all 0.3s ease;
+    }
+    .badge:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(102,126,234,0.5); }
+
+    /* Summary */
+    .summary-box {
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        padding: 28px; border-radius: 15px; border-left: 6px solid #667eea;
+        font-size: 1.07rem; line-height: 1.8; color: #555;
+    }
+
+    /* Footer */
+    .footer { text-align: center; color: white; margin-top: 40px; padding: 10px; opacity: 0.95; }
+    .footer a { color: white; text-decoration: none; font-weight: 600; }
+
+    /* Empty state */
+    .empty-state { text-align: center; color: #999; font-style: italic; padding: 16px; }
+
+    /* Animations */
+    @keyframes fadeInDown { from { opacity: 0; transform: translateY(-30px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* Print */
+    @media print {
+        body { background: white; padding: 16px; }
+        .card { box-shadow: none; page-break-inside: avoid; }
+        .point-card:hover, .stat-card:hover, .badge:hover { transform: none; }
+        .footer { color: #333; }
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        body { padding: 20px 12px; }
+        .header h1 { font-size: 2.2rem; }
+        .card { padding: 24px; }
+        .section-title { font-size: 1.5rem; }
+        .stats-grid { grid-template-columns: 1fr; }
+        .point-card { flex-direction: column; text-align: left; }
+        .point-number { margin: 0 0 12px 0; }
+    }
+</style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>📊 Solar Capacity</h1>
+        <p class="subtitle">AI-Generated Infographic Report • October 24, 2025 at 02:46 AM</p>
+    </div>
+
+    <!-- Main Points -->
+    <div class="card">
+        <h2 class="section-title">💡 Key Insights</h2>
+        <div class="points-grid">
+            
+                <div class="point-card">
+                    <div class="point-number">1</div>
+                    <div class="point-text">India's solar power capacity has reached 70GW in 2025.</div>
+                </div>
+            
+                <div class="point-card">
+                    <div class="point-number">2</div>
+                    <div class="point-text">This is a significant increase from 35GW in 2022.</div>
+                </div>
+            
+                <div class="point-card">
+                    <div class="point-number">3</div>
+                    <div class="point-text">The expansion is driven by declining costs and government incentives.</div>
+                </div>
+            
+                <div class="point-card">
+                    <div class="point-number">4</div>
+                    <div class="point-text">India aims for 100GW solar capacity by 2027.</div>
+                </div>
+            
+                <div class="point-card">
+                    <div class="point-number">5</div>
+                    <div class="point-text">Key factors for growth include abundant sunlight, rural adoption, and solar parks.</div>
+                </div>
+            
+                <div class="point-card">
+                    <div class="point-number">6</div>
+                    <div class="point-text">Challenges like grid integration and storage exist.</div>
+                </div>
+            
+                <div class="point-card">
+                    <div class="point-number">7</div>
+                    <div class="point-text">India is positioned to be a solar leader.</div>
+                </div>
+            
+        </div>
+    </div>
+
+    <!-- Statistics -->
+    <div class="card">
+        <h2 class="section-title">📈 Key Statistics</h2>
+        <div class="stats-grid">
+            
+                    <div class="stat-card">
+                        <div class="stat-value">70</div>
+                        <div class="stat-label">Solar Capacity (GW) in 2025</div>
+                    </div>
+                
+                    <div class="stat-card">
+                        <div class="stat-value">35</div>
+                        <div class="stat-label">Solar Capacity (GW) in 2022</div>
+                    </div>
+                
+                    <div class="stat-card">
+                        <div class="stat-value">100</div>
+                        <div class="stat-label">Projected Solar Capacity (GW) by 2027</div>
+                    </div>
+                
+        </div>
+    </div>
+
+    <!-- Chart -->
+    <div class="card">
+        <h2 class="section-title">📊 Data Visualization</h2>
+        <div class="chart-container">
+            <img src="/generated/solar_capacity_chart.png" alt="Key Statistics Chart" onerror="this.style.display='none'"/>
+        </div>
+    </div>
+
+    <!-- Visual Suggestions -->
+    <div class="card">
+        <h2 class="section-title">🎨 Suggested Visuals</h2>
+        <div class="badges-container">
+            <span class="badge">bar chart</span><span class="badge">timeline</span><span class="badge">icon array</span>
+        </div>
+    </div>
+
+    <!-- Summary -->
+    <div class="card">
+        <h2 class="section-title">📝 Summary</h2>
+        <div class="summary-box">
+            India's solar power capacity has doubled to 70GW in 2025 from 35GW in 2022, driven by cost reductions and government support. With a target of 100GW by 2027, growth is fueled by sunlight, rural adoption, and solar parks, though grid integration and storage remain challenges. India is set to become a global solar leader.
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>Generated by <a href="/">AI Infographic Generator</a> • Powered by Google Gemini</p>
+    </div>
+</div>
+</body>
+</html>

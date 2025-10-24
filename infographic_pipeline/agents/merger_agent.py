@@ -1,12 +1,7 @@
-"""
-Agent for merging content and infographic layout into a unified design.
-Straightforward: just packs them together in a dict.
-"""
-
 class MergerAgent:
     def merge(self, content_data, design_spec):
         """
-        Combines structured content and design spec under a 'merged_layout' key.
+        Combine extracted content and design spec into one output dict.
         """
         return {
             "merged_layout": {

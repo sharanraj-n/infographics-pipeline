@@ -1,36 +1,34 @@
-"""
-Agent for turning structured content into infographic layout/design specs.
-Uses Gemini and robust JSON extraction.
-"""
-
+import os
+import json
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain.prompts import PromptTemplate
-from infographic_pipeline.agents.robust_json import robust_json_extract
-import json
+from .robust_json import robust_json_extract
 
 class InfographicsAgent:
     def __init__(self):
-        # Lower temperature for more deterministic layout instructions
-        self.llm = ChatGoogleGenerativeAI(model="gemini-2.5-flash-lite", temperature=0.3)
+        api_key = os.getenv("GOOGLE_GENAI_API_KEY")
+        if not api_key:
+            raise ValueError("GOOGLE_GENAI_API_KEY not found in environment variables")
+        
+        self.llm = ChatGoogleGenerativeAI(
+            model="gemini-2.5-flash-lite",
+            google_api_key=api_key,
+            temperature=0.3
+        )
+        
         self.prompt = PromptTemplate.from_template(
             """
-            Given the structured data below, design an infographic layout specification.
-            Include:
-            - Type of visuals (charts, timelines, etc.)
-            - Color scheme suggestion
-            - Font and composition hierarchy
-            - Export format direction (Canva, Adobe, JSON)
+            Given the structured infographic data below, suggest:
+            - visual layout
+            - infographic type(s)
+            - color/font recommendations
             
+            Output as pure JSON only.
             Data: {content_data}
-            Return your answer as a single JSON object and nothing else.
             """
         )
-
+    
     def generate_design_spec(self, content_data: dict):
-        """
-        Runs Gemini on structured content to generate infographic design spec.
-        Returns: dict (parsed model output)
-        """
         chain = self.prompt | self.llm
         response = chain.invoke({"content_data": json.dumps(content_data)})
         text = getattr(response, "content", str(response))
